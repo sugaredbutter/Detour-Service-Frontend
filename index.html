@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Get Place Info</h1>
+    <button id="fetchButton">Get Place Info</button>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("fetchButton").addEventListener("click", function() {
+            fetch("http://Detour-Load-Balancer-742602308.us-east-2.elb.amazonaws.com/get_place")
+                .then(response => response.json())  // Parse the JSON response
+                .then(data => {
+                    // Display the result
+                    const resultDiv = document.getElementById("result");
+                    resultDiv.innerHTML = `
+                        <p><strong>Place name:</strong> ${data["Place name"]}</p>
+                        <p><strong>Category:</strong> ${data["Category"]}</p>
+                        <p><strong>Place ID:</strong> ${data["Place ID"]}</p>
+                    `;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("result").innerText = "Error fetching data.";
+                });
+        });
+    </script>
+    
+</body>
+</html>

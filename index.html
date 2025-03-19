@@ -17,28 +17,81 @@
 </head>
 <body>
     <h1>Get Place Info</h1>
-    <button id="fetchButton">Get Place Info</button>
+    <select name="City" id="City">
+        <option value="Austin">Austin, TX</option>
+        <option value="Boston">Boston, MA</option>
+        <option value="Chicago">Chicago, IL</option>
+        <option value="Dallas">Dallas, TX</option>
+        <option value="Denver">Denver, CO</option>
+        <option value="Houston">Houston, TX</option>
+        <option value="Los Angeles">Los Angeles, CA</option>
+        <option value="New York City">New York City, NY</option>
+        <option value="Philadelphia">Philadelphia, PA</option>
+        <option value="Phoenix">Phoenix, AZ</option>
+        <option value="Portland">Portland, OR</option>
+        <option value="San Diego">San Diego, CA</option>
+        <option value="San Francisco">San Francisco, CA</option>
+        <option value="Seattle">Seattle, WA</option>
+        <option value="Washington">Washington, DC</option>
+        <option value="Halifax">Halifax, NS</option>
+        <option value="Quebec">Quebec City, QC</option>
+        <option value="Toronto">Toronto, ON</option>
+        <option value="Vancouver">Vancouver, BC</option>
+        <option value="Victoria">Victoria, BC</option>
+      </select>
+    <button id="detourButton" onclick="getPlaceInfo()">Get Location</button>
 
     <div id="result"></div>
 
     <script>
-        document.getElementById("fetchButton").addEventListener("click", function() {
-            fetch("http://Detour-Load-Balancer-742602308.us-east-2.elb.amazonaws.com/get_place")
-                .then(response => response.json())  // Parse the JSON response
+        function getPlaceInfo() {
+            let city = document.getElementById("City").value;
+            document.getElementById('detourButton').style.display = 'none';
+            fetch(`http://Detour-Load-Balancer-742602308.us-east-2.elb.amazonaws.com/get_place?name=${city}`)
+                .then(response => response.json())  
                 .then(data => {
-                    // Display the result
-                    const resultDiv = document.getElementById("result");
-                    resultDiv.innerHTML = `
-                        <p><strong>Place name:</strong> ${data["Place name"]}</p>
-                        <p><strong>Category:</strong> ${data["Category"]}</p>
-                        <p><strong>Place ID:</strong> ${data["Place ID"]}</p>
-                    `;
+                    if (data["Detour"] != "NOT FOUND") {
+                        const resultDiv = document.getElementById("result");
+                        var detour = "Not a Detour";
+                        if (data["Detour"] == true)
+                        {
+                            detour = "Detour"
+                        }
+                        resultDiv.innerHTML = `
+                            <p><strong>Place ID:</strong> ${data["Place ID"]}</p>
+                            <p><strong>Place name:</strong> ${data["Place name"]}</p>
+                            <p><strong>Detour Result:</strong> ${detour}</p>
+                            <p><strong>Category:</strong> ${data["Category"]}</p>
+                            <p><strong>Country:</strong> ${data["Country"]}</p>
+                            <p><strong>State:</strong> ${data["State"]}</p>
+                            <p><strong>City:</strong> ${data["City"]}</p>
+                            <p><strong>Website:</strong> ${data["Website"]}</p>
+
+                        `;
+                    }
+                    else if (data["Detour"] == "NOT FOUND") 
+                    {
+                        resultDiv.innerHTML = `
+                            <p><strong>No Detour Found in Area. Feel free to try again! </strong></p>
+                            
+                        `;
+                    }
+                    else
+                    {
+                        resultDiv.innerHTML = `
+                            <p><strong>Category:</strong> ${data["Detour"]}</p>
+                            
+                        `;
+                    }
+                    document.getElementById('detourButton').style.display = 'inline';
+
                 })
                 .catch(error => {
                     console.error("Error:", error);
                     document.getElementById("result").innerText = "Error fetching data.";
+                    document.getElementById('detourButton').style.display = 'inline';
                 });
-        });
+        }
     </script>
     
 </body>

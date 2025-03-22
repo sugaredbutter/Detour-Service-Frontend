@@ -70,6 +70,8 @@
                     }
                     else if (data["Detour"] == "NOT FOUND") 
                     {
+                        const resultDiv = document.getElementById("result");
+
                         resultDiv.innerHTML = `
                             <p><strong>No Detour Found in Area. Feel free to try again! </strong></p>
                             
@@ -77,6 +79,8 @@
                     }
                     else
                     {
+                        const resultDiv = document.getElementById("result");
+
                         resultDiv.innerHTML = `
                             <p><strong>Category:</strong> ${data["Detour"]}</p>
                             

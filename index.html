@@ -50,7 +50,13 @@
             fetch(`https://f6wyiz1v33.execute-api.us-east-2.amazonaws.com/dev/get_place?name=${city}`)
                 .then(response => response.json())  
                 .then(data => {
-                    if (data["Detour"] != "NOT FOUND") {
+                    if ("Error" in data) {
+                        const resultDiv = document.getElementById("result");                        
+                        resultDiv.innerHTML = `
+                            <p>${data["Error"]}</p>
+                        `;
+                    }
+                    else if (data["Detour"] != "NOT FOUND") {
                         const resultDiv = document.getElementById("result");
                         var detour = "Not a Detour";
                         if (data["Detour"] == true)

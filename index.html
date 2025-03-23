@@ -40,7 +40,8 @@
         <option value="Victoria">Victoria, BC</option>
       </select>
     <button id="detourButton" onclick="getPlaceInfo()">Get Location</button>
-    <div id="result"></div>
+    <div id="result">
+    </div>
 
     <script>
         function getPlaceInfo() {
@@ -58,13 +59,10 @@
                         }
                         resultDiv.innerHTML = `
                             <p><strong>Place ID:</strong> ${data["Place ID"]}</p>
-                            <p><strong>Place name:</strong> ${data["Place name"]}</p>
+                            <p><strong>Google Maps Link:</strong> <a href="${data["Link"]}" target="_blank">${data["Link"]}</a></p>
                             <p><strong>Detour Result:</strong> ${detour}</p>
                             <p><strong>Category:</strong> ${data["Category"]}</p>
-                            <p><strong>Country:</strong> ${data["Country"]}</p>
-                            <p><strong>State:</strong> ${data["State"]}</p>
                             <p><strong>City:</strong> ${data["City"]}</p>
-                            <p><strong>Website:</strong> ${data["Website"]}</p>
 
                         `;
                     }

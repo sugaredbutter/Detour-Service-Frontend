@@ -58,7 +58,8 @@
                             detour = "Detour"
                         }
                         resultDiv.innerHTML = `
-                            <p><strong>Place ID:</strong> ${data["Place ID"]}</p>
+                            <p><strong>Place ID:</strong> <span id="place-id">${data["Place ID"]}</span></p>
+                            <button onclick="copyPlaceId()">Copy Place ID</button>
                             <p><strong>Google Maps Link:</strong> <a href="${data["Link"]}" target="_blank">${data["Link"]}</a></p>
                             <p><strong>Detour Result:</strong> ${detour}</p>
                             <p><strong>Category:</strong> ${data["Category"]}</p>
@@ -92,6 +93,19 @@
                     document.getElementById("result").innerText = "Error fetching data.";
                     document.getElementById('detourButton').style.display = 'inline';
                 });
+        }
+        function copyPlaceId() {
+            var placeIdText = document.getElementById("place-id").textContent;
+
+            var tempInput = document.createElement("input");
+            tempInput.value = placeIdText;
+            document.body.appendChild(tempInput);
+
+            tempInput.select();
+            document.execCommand("copy");
+
+            document.body.removeChild(tempInput);
+
         }
     </script>
     

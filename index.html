@@ -44,6 +44,12 @@
     </div>
 
     <script>
+        window.onload = function () {
+            const citySelect = document.getElementById("City");
+            const totalOptions = citySelect.options.length;
+            const randomIndex = Math.floor(Math.random() * totalOptions);
+            citySelect.selectedIndex = randomIndex;
+        };
         function getPlaceInfo() {
             let city = document.getElementById("City").value;
             document.getElementById('detourButton').style.display = 'none';
